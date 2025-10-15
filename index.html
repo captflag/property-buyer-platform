@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏗️ Property Buyer Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 12px 40px rgba(79, 172, 254, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+            max-width: 600px;
+            margin: 2rem;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+        
+        .subtitle {
+            font-size: 1.25rem;
+            color: #718096;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .feature {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature h3 {
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature p {
+            color: #4a5568;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 2rem;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+        }
+        
+        .github-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: #4facfe;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .github-link:hover {
+            text-decoration: underline;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .container {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏗️ Property Buyer Platform</h1>
+        <p class="subtitle">
+            A comprehensive customer-facing platform providing transparent, real-time insights into construction projects.
+        </p>
+        
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🏗️</div>
+                <h3>Real-time Updates</h3>
+                <p>Live progress tracking with photos and timeline updates</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📋</div>
+                <h3>Document Library</h3>
+                <p>Access all project documents, permits, and certifications</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🤖</div>
+                <h3>AI Support</h3>
+                <p>Intelligent chatbot for instant project questions</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">♿</div>
+                <h3>Accessible Design</h3>
+                <p>WCAG 2.1 AA compliant with universal access features</p>
+            </div>
+        </div>
+        
+        <a href="#" class="cta-button">🚀 Launch Platform</a>
+        
+        <br>
+        
+        <a href="https://github.com/captflag/property-buyer-platform" class="github-link">
+            📦 View on GitHub
+        </a>
+        
+        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(79, 172, 254, 0.2);">
+            <p style="color: #718096; font-size: 0.85rem;">
+                Built with React + TypeScript | Express.js | Modern UI/UX
+            </p>
+        </div>
+    </div>
+</body>
+</html>
