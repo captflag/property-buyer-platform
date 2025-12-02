@@ -9,6 +9,24 @@ The **Property Buyer Platform** is a premium, customer-facing web application de
 - **Backend**: Node.js, Express
 - **Real-time**: Socket.io (configured for port 3001)
 
+## 📸 Application Screenshots
+
+### Dashboard
+The central hub featuring a dynamic hero section, real-time statistics, and quick actions.
+![Dashboard](docs/images/dashboard.png)
+
+### Construction Updates
+Vertical timeline visualization with professional progress photos and status indicators.
+![Construction Updates](docs/images/updates.png)
+
+### Document Library
+Organized document management with color-coded icons and search functionality.
+![Document Library](docs/images/documents.png)
+
+### AI Support
+Professional chat interface for instant project support and inquiries.
+![AI Support](docs/images/support.png)
+
 ## ✨ Key Features & Enhancements
 
 ### 🎨 Premium User Interface
