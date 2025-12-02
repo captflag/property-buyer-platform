@@ -5,33 +5,6 @@ The **Property Buyer Platform** is a premium, customer-facing web application de
 
 ## 🚀 Technology Stack
 - **Frontend**: React 18, TypeScript, Vite
-- **Styling**: CSS Modules, Glassmorphism effects, Lucide React Icons
-- **Backend**: Node.js, Express
-- **Real-time**: Socket.io (configured for port 3001)
-
-## 📸 Application Screenshots
-
-### Dashboard
-The central hub featuring a dynamic hero section, real-time statistics, and quick actions.
-![Dashboard](docs/images/dashboard.png)
-
-### Construction Updates
-Vertical timeline visualization with professional progress photos and status indicators.
-![Construction Updates](docs/images/updates.png)
-
-### Document Library
-Organized document management with color-coded icons and search functionality.
-![Document Library](docs/images/documents.png)
-
-### AI Support
-Professional chat interface for instant project support and inquiries.
-![AI Support](docs/images/support.png)
-
-## ✨ Key Features & Enhancements
-
-### 🎨 Premium User Interface
-- **Royal Header Design**: Luxurious deep navy/purple gradient with gold accents (#d4af37) and elegant typography.
-- **Professional Imagery**: AI-generated high-quality construction and architectural images.
 - **Modern Icons**: Comprehensive integration of `lucide-react` SVG icons.
 - **Animations**: Smooth transitions, hover effects, and modern loading spinners.
 
