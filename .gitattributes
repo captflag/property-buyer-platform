@@ -1,0 +1,12 @@
+# Check text files out with LF on every platform. Prettier enforces LF, so a
+# Windows checkout converted to CRLF would fail `npm run format:check` on
+# every file without a single real change.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.pdf binary
