@@ -19,6 +19,10 @@ export function formatCurrency(
     style: "currency",
     currency,
     notation: compact ? "compact" : "standard",
+    // Explicit, because the default minimum is the currency's own (two for
+    // USD) and ICU versions disagree on reconciling it with a lower maximum:
+    // Node 22 renders "$685.0K" where Node 24 renders "$685K".
+    minimumFractionDigits: 0,
     maximumFractionDigits: compact ? 1 : 0,
   }).format(amount);
 }
