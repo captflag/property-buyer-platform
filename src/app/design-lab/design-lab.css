@@ -1,0 +1,294 @@
+/* ============================================================================
+   Design lab styles.
+   Scoped entirely to .lab-panel. Everything reads from the CSS custom
+   properties the theme supplies, so a new direction is a token block and
+   nothing else.
+   ========================================================================= */
+
+.lab-panel {
+  background: var(--lab-paper);
+  color: var(--lab-ink);
+  container-type: inline-size;
+}
+
+.lab-panel--grid {
+  background-image:
+    linear-gradient(var(--lab-line-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--lab-line-soft) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.lab-display {
+  font-family: var(--lab-display-font);
+  font-weight: var(--lab-heading-weight);
+  letter-spacing: var(--lab-heading-tracking);
+  text-transform: var(--lab-heading-case);
+  line-height: 0.95;
+}
+
+.lab-label {
+  text-transform: var(--lab-label-case);
+  letter-spacing: var(--lab-label-tracking);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--lab-ink-3);
+}
+
+.lab-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* ---- Surfaces ----------------------------------------------------------- */
+.lab-card {
+  background: var(--lab-surface);
+  border: var(--lab-border) solid var(--lab-line);
+  border-radius: var(--lab-radius);
+  box-shadow: var(--lab-shadow);
+}
+
+.lab-card--flat {
+  box-shadow: none;
+}
+
+.lab-card--accent {
+  background: var(--lab-accent);
+  color: var(--lab-accent-ink);
+}
+
+.lab-card--ink {
+  background: var(--lab-ink);
+  color: var(--lab-paper);
+}
+
+/* ---- Buttons ------------------------------------------------------------ */
+.lab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: var(--lab-label-tracking);
+  text-transform: var(--lab-label-case);
+  border: var(--lab-border) solid var(--lab-line);
+  border-radius: var(--lab-radius);
+  box-shadow: var(--lab-shadow-sm);
+  background: var(--lab-surface);
+  color: var(--lab-ink);
+  cursor: pointer;
+  transition:
+    transform 90ms ease,
+    box-shadow 90ms ease,
+    background-color 120ms ease;
+}
+
+/* The press moves the element onto its own shadow -- the physical metaphor
+   that makes a hard-shadow button feel like a real switch. */
+.lab-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+.lab-btn--primary {
+  background: var(--lab-accent);
+  color: var(--lab-accent-ink);
+}
+
+.lab-btn--secondary {
+  background: var(--lab-accent-2);
+  color: var(--lab-accent-2-ink);
+}
+
+.lab-btn--ghost {
+  background: transparent;
+  box-shadow: none;
+  border-color: transparent;
+  color: var(--lab-ink-2);
+}
+
+.lab-btn--ghost:hover {
+  background: var(--lab-surface-2);
+}
+
+.lab-btn:focus-visible {
+  outline: 3px solid var(--lab-accent-2);
+  outline-offset: 2px;
+}
+
+/* ---- Chips / badges ----------------------------------------------------- */
+.lab-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: var(--lab-label-case);
+  border: var(--lab-border) solid var(--lab-line);
+  border-radius: var(--lab-radius-chip);
+  background: var(--lab-surface);
+  color: var(--lab-ink);
+  white-space: nowrap;
+}
+
+.lab-chip--good {
+  background: var(--lab-good);
+  color: #fff;
+}
+.lab-chip--warn {
+  background: var(--lab-warn);
+  color: #0a0a0a;
+}
+.lab-chip--bad {
+  background: var(--lab-bad);
+  color: #fff;
+}
+.lab-chip--accent {
+  background: var(--lab-accent);
+  color: var(--lab-accent-ink);
+}
+.lab-chip--quiet {
+  background: var(--lab-surface-2);
+  color: var(--lab-ink-2);
+  border-color: var(--lab-line-soft);
+}
+
+/* ---- Inputs ------------------------------------------------------------- */
+.lab-input {
+  width: 100%;
+  padding: 9px 12px;
+  font-size: 13px;
+  font-family: inherit;
+  background: var(--lab-surface);
+  color: var(--lab-ink);
+  border: var(--lab-border) solid var(--lab-line);
+  border-radius: var(--lab-radius);
+}
+
+.lab-input::placeholder {
+  color: var(--lab-ink-3);
+}
+
+.lab-input:focus {
+  outline: none;
+  box-shadow: var(--lab-shadow-sm);
+  border-color: var(--lab-accent-2);
+}
+
+/* ---- Meters ------------------------------------------------------------- */
+.lab-meter {
+  height: 14px;
+  background: var(--lab-surface-2);
+  border: var(--lab-border) solid var(--lab-line);
+  border-radius: var(--lab-radius);
+  overflow: hidden;
+}
+
+.lab-meter__fill {
+  height: 100%;
+  background: var(--lab-accent);
+}
+
+.lab-meter__fill--stripe {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--lab-accent) 0 8px,
+    var(--lab-accent-2) 8px 16px
+  );
+}
+
+/* ---- Table -------------------------------------------------------------- */
+.lab-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+.lab-table th {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: var(--lab-border-strong) solid var(--lab-line);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: var(--lab-label-tracking);
+  text-transform: uppercase;
+  color: var(--lab-ink-2);
+}
+
+.lab-table td {
+  padding: 9px 10px;
+  border-bottom: 1px solid var(--lab-line-soft);
+}
+
+.lab-table tbody tr:hover {
+  background: var(--lab-surface-2);
+}
+
+/* ---- Gantt -------------------------------------------------------------- */
+.lab-gantt-row {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  align-items: center;
+  gap: 10px;
+}
+
+.lab-gantt-track {
+  position: relative;
+  height: 18px;
+  background: var(--lab-surface-2);
+  border: 1px solid var(--lab-line-soft);
+}
+
+.lab-gantt-bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border: var(--lab-border) solid var(--lab-line);
+  display: flex;
+  align-items: stretch;
+}
+
+.lab-gantt-bar__fill {
+  background: currentColor;
+}
+
+.lab-gantt-today {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  background: var(--lab-bad);
+}
+
+/* ---- Nav ---------------------------------------------------------------- */
+.lab-nav-btn {
+  display: inline-block;
+  text-decoration: none;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 2px solid var(--color-ink);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.lab-nav-btn[aria-current="true"] {
+  background: var(--color-ink);
+  color: var(--color-surface);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lab-btn,
+  .lab-nav-btn {
+    transition: none;
+  }
+  .lab-btn:active {
+    transform: none;
+  }
+}

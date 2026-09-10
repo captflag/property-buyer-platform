@@ -1,0 +1,820 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================================
+   NOIR EDITORIAL
+   Classic monochrome -- deep black and crisp white -- punctuated by emerald,
+   navy and metallic gold.
+
+   A house being built is a sequence of facts: dates, sums, square feet,
+   stages. The interface sets those facts in a Swiss grotesk at structural
+   sizes, rules them with editorial lines, and keeps colour for meaning:
+
+     ink        black / white   everything, including the "brand"
+     gold       metallic        the primary action, and what needs acting on
+     emerald                    complete, passed, paid
+     navy                       high severity, at risk
+     crimson                    blocked, overdue, failed -- the one semantic
+                                colour outside the palette, because a safety
+                                signal should not depend on the reader
+                                decoding an inversion
+
+   Three groups of tokens live here, and the split matters:
+
+     1. COLOUR       -- surfaces, ink, accent, status.
+     2. STRUCTURE    -- radius, border weight, shadow, tracking, case.
+     3. CHART SERIES -- a separate, validated categorical palette. It already
+                        holds navy, gold and green, and was re-validated
+                        against these exact surfaces -- see docs/DESIGN.md.
+
+   Nothing in the components hard-codes a radius, a border width or a shadow,
+   so the direction can change again with a token-block edit.
+   ========================================================================= */
+:root {
+  color-scheme: light;
+
+  /* ---- Surfaces: crisp white; cards separate by rule, not by tint ---- */
+  --canvas: #ffffff;
+  --surface: #ffffff;
+  --surface-2: rgba(10, 10, 10, 0.04);
+  --surface-3: rgba(10, 10, 10, 0.07);
+  --overlay: rgba(10, 10, 10, 0.55);
+
+  /* ---- Ink ---- */
+  --ink: #0a0a0a;
+  --ink-2: #474747;
+  --ink-3: #6b6b6b;
+  --ink-inverse: #ffffff;
+
+  /* ---- Rules ---- */
+  --line: rgba(10, 10, 10, 0.1);
+  --line-strong: rgba(10, 10, 10, 0.5);
+  --ring: #1d3566;
+
+  /* ---- Brand: ink itself. Monochrome is the identity. ---- */
+  --brand: #0a0a0a;
+  --brand-hover: #2b2b2b;
+  --brand-ink: #ffffff;
+  --brand-subtle: #f0f0f0;
+  --brand-subtle-ink: #0a0a0a;
+
+  /* ---- Accent: gold ---- */
+  --accent: #a8832f;
+  --accent-subtle: #f7f0df;
+  --accent-subtle-ink: #6e5320;
+
+  /* Metallic gold for the primary action. Its ink passes 4.5:1 on the
+     darkest and the lightest stop of the gradient. */
+  --gold-metal: linear-gradient(
+    115deg,
+    #9a7836 0%,
+    #d9bb78 26%,
+    #b18a45 46%,
+    #f0dca6 66%,
+    #a07a37 100%
+  );
+  --gold-ink: #0a0a0a;
+
+  /* ---- Status: always shipped with an icon and a label ---- */
+  --good: #0f7a55;
+  --good-subtle: #e3f2eb;
+  --good-ink: #0b5a3f;
+  --warning: #a8832f;
+  --warning-subtle: #f7f0df;
+  --warning-ink: #6e5320;
+  --serious: #1d3566;
+  --serious-subtle: #e7ecf6;
+  --serious-ink: #1d3566;
+  --critical: #b3261e;
+  --critical-subtle: #fbe9e7;
+  --critical-ink: #8f1d17;
+
+  /* ---- Chart chrome ---- */
+  --chart-surface: #ffffff;
+  --grid: #efefef;
+  --axis: #cfcfcf;
+
+  /* ---- Categorical series -- fixed order, never cycled, never extended ---- */
+  --series-1: #2c5f9e;
+  --series-2: #c25a18;
+  --series-3: #1d8a63;
+  --series-4: #b08420;
+  --series-5: #c56b93;
+  --series-6: #2b8cbe;
+  --series-7: #6b4e9e;
+  --series-8: #a03232;
+
+  /* ---- Sequential ramp (continuous magnitude): emerald ---- */
+  --seq-100: #e3f2eb;
+  --seq-250: #a8d8c2;
+  --seq-400: #4fae86;
+  --seq-550: #0f7a55;
+  --seq-700: #0a4a34;
+
+  /* ---- Structure ---- */
+  /* Glass is rounded: continuous, generous corners on panels, capsules for
+     buttons and chips, circles for avatars. */
+  --radius-card: 22px;
+  --radius-control: 14px;
+  --radius-chip: 999px;
+  --radius-avatar: 999px;
+
+  --border-width: 1px;
+  --border-width-strong: 4px;
+
+  --shadow-card: none;
+  --shadow-raised: none;
+  --shadow-overlay: 0 24px 60px rgba(10, 10, 10, 0.22);
+
+  /* ---- Glass ---- */
+  --glass-fill: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.74) 0%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0.62) 100%
+  );
+  --glass-fill-hover: linear-gradient(160deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.64));
+  --glass-field: rgba(255, 255, 255, 0.6);
+  --glass-panel: rgba(255, 255, 255, 0.82);
+  --glass-bar: rgba(255, 255, 255, 0.66);
+  --glass-rim: rgba(255, 255, 255, 0.78);
+  --glass-edge: rgba(10, 10, 10, 0.08);
+  --glass-sheen: rgba(255, 255, 255, 0.7);
+  --glass-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 0 0 1px rgba(10, 10, 10, 0.05),
+    0 24px 48px -28px rgba(10, 10, 10, 0.3);
+  --glass-blur: 22px;
+  --ambient-veil: linear-gradient(180deg, rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.74));
+  --ambient-photo-opacity: 0.7;
+
+  --heading-tracking: -0.035em;
+  --heading-weight: 500;
+  --label-tracking: 0.14em;
+  --label-transform: uppercase;
+}
+
+.dark {
+  color-scheme: dark;
+
+  /* Deep black, with surfaces stepped up in near-neutral greys so a card
+     still reads as a card without borrowing any colour. */
+  --canvas: #0a0a0a;
+  --surface: #121212;
+  /* Translucent, so tints and hovers read as light on glass. */
+  --surface-2: rgba(255, 255, 255, 0.05);
+  --surface-3: rgba(255, 255, 255, 0.09);
+  --overlay: rgba(0, 0, 0, 0.7);
+
+  --ink: #fafafa;
+  --ink-2: #b3b3b3;
+  --ink-3: #8f8f8f;
+  --ink-inverse: #0a0a0a;
+
+  --line: rgba(255, 255, 255, 0.1);
+  --line-strong: rgba(255, 255, 255, 0.42);
+  --ring: #d4b36c;
+
+  --brand: #fafafa;
+  --brand-hover: #d6d6d6;
+  --brand-ink: #0a0a0a;
+  --brand-subtle: rgba(255, 255, 255, 0.08);
+  --brand-subtle-ink: #fafafa;
+
+  --accent: #d4b36c;
+  --accent-subtle: rgba(212, 179, 108, 0.14);
+  --accent-subtle-ink: #e6cc8e;
+
+  --good: #34b17f;
+  --good-subtle: rgba(52, 177, 127, 0.15);
+  --good-ink: #7fd9b0;
+  --warning: #d4b36c;
+  --warning-subtle: rgba(212, 179, 108, 0.14);
+  --warning-ink: #e6cc8e;
+  --serious: #8fa8e0;
+  --serious-subtle: rgba(143, 168, 224, 0.15);
+  --serious-ink: #b7c8f0;
+  --critical: #f07a6e;
+  --critical-subtle: rgba(240, 122, 110, 0.15);
+  --critical-ink: #ffb1a8;
+
+  --chart-surface: #121212;
+  --grid: #222222;
+  --axis: #3a3a3a;
+
+  --series-1: #5a93de;
+  --series-2: #d9743e;
+  --series-3: #2fa87a;
+  --series-4: #b88a28;
+  --series-5: #d98cc0;
+  --series-6: #8fb339;
+  --series-7: #9a83de;
+  --series-8: #d06565;
+
+  --seq-100: #0a4a34;
+  --seq-250: #0f7a55;
+  --seq-400: #4fae86;
+  --seq-550: #a8d8c2;
+  --seq-700: #e3f2eb;
+
+  --shadow-overlay: 0 24px 60px rgba(0, 0, 0, 0.7);
+
+  --glass-fill: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.035) 45%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  --glass-fill-hover: linear-gradient(160deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.07));
+  --glass-field: rgba(255, 255, 255, 0.05);
+  --glass-panel: rgba(24, 24, 24, 0.74);
+  --glass-bar: rgba(10, 10, 10, 0.52);
+  --glass-rim: rgba(255, 255, 255, 0.13);
+  --glass-edge: rgba(0, 0, 0, 0.4);
+  --glass-sheen: rgba(255, 255, 255, 0.17);
+  --glass-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 rgba(255, 255, 255, 0.03),
+    0 30px 60px -30px rgba(0, 0, 0, 0.75);
+  --ambient-veil: linear-gradient(180deg, rgba(10, 10, 10, 0.5), rgba(10, 10, 10, 0.74));
+  --ambient-photo-opacity: 0.62;
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-overlay: var(--overlay);
+
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-ink-inverse: var(--ink-inverse);
+
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ring: var(--ring);
+
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-subtle: var(--brand-subtle);
+  --color-brand-subtle-ink: var(--brand-subtle-ink);
+
+  --color-accent: var(--accent);
+  --color-accent-subtle: var(--accent-subtle);
+  --color-accent-subtle-ink: var(--accent-subtle-ink);
+
+  --color-good: var(--good);
+  --color-good-subtle: var(--good-subtle);
+  --color-good-ink: var(--good-ink);
+  --color-warning: var(--warning);
+  --color-warning-subtle: var(--warning-subtle);
+  --color-warning-ink: var(--warning-ink);
+  --color-serious: var(--serious);
+  --color-serious-subtle: var(--serious-subtle);
+  --color-serious-ink: var(--serious-ink);
+  --color-critical: var(--critical);
+  --color-critical-subtle: var(--critical-subtle);
+  --color-critical-ink: var(--critical-ink);
+
+  --color-grid: var(--grid);
+  --color-axis: var(--axis);
+  --color-series-1: var(--series-1);
+  --color-series-2: var(--series-2);
+  --color-series-3: var(--series-3);
+  --color-series-4: var(--series-4);
+  --color-series-5: var(--series-5);
+  --color-series-6: var(--series-6);
+  --color-series-7: var(--series-7);
+  --color-series-8: var(--series-8);
+
+  --font-sans: var(--font-schibsted), "Helvetica Neue", Arial, system-ui, sans-serif;
+  --font-display: var(--font-schibsted), "Helvetica Neue", Arial, system-ui, sans-serif;
+  --font-mono: var(--font-dm-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-serif: var(--font-cormorant), "Cormorant Garamond", Garamond, Georgia, serif;
+
+  --radius-card: var(--radius-card);
+  --radius-control: var(--radius-control);
+  --radius-chip: var(--radius-chip);
+}
+
+/* ============================================================================
+   Base
+   ========================================================================= */
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: var(--heading-weight);
+    letter-spacing: var(--heading-tracking);
+    text-wrap: balance;
+  }
+
+  /* The ring follows each element's own rounding. */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: #d9bb78;
+    color: #0a0a0a;
+  }
+}
+
+/* ============================================================================
+   Component primitives.
+   Every surface in the app is one of these classes, reading the structural
+   tokens above rather than hard-coding geometry.
+   ========================================================================= */
+@layer components {
+  /* ---- Glass -------------------------------------------------------------
+     Every section is a pane of frosted glass over the page's ambient scene:
+     a live Gaussian blur of what is behind it, a translucent gradient fill,
+     a lit top edge and a soft drop shadow for depth. `.ui-glass` gives the
+     same material to anything that is not a section. */
+  .ui-card,
+  .ui-glass {
+    position: relative;
+    isolation: isolate;
+    background: var(--glass-fill);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(165%);
+    backdrop-filter: blur(var(--glass-blur)) saturate(165%);
+    border: 1px solid var(--glass-rim);
+    border-radius: var(--radius-card);
+    box-shadow: var(--glass-shadow);
+  }
+
+  .ui-card {
+    padding-inline: clamp(18px, 2vw, 26px);
+  }
+
+  /* Glass never blurs glass: a second blur inside the first costs a full
+     extra pass and adds nothing visible. */
+  :is(.ui-card, .ui-glass) :is(.ui-card, .ui-glass) {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  /* Dynamic light, part one: a specular bloom. At rest it sits at the top
+     left, like light from a window; under the pointer it follows it (the
+     position comes from useGlassLight). */
+  :is(.ui-card, .ui-glass)::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+      520px circle at var(--mx, 18%) var(--my, -30%),
+      var(--glass-sheen),
+      transparent 44%
+    );
+    opacity: 0.6;
+    transition: opacity 400ms ease;
+  }
+
+  /* Dynamic light, part two: the rim brightens where the light falls, drawn
+     as a one-pixel gradient border through a mask. */
+  :is(.ui-card, .ui-glass)::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    pointer-events: none;
+    background: radial-gradient(
+      320px circle at var(--mx, 18%) var(--my, -30%),
+      rgba(255, 255, 255, 0.55),
+      transparent 62%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box exclude,
+      linear-gradient(#000 0 0);
+    opacity: 0.35;
+    transition: opacity 400ms ease;
+  }
+
+  :is(.ui-card, .ui-glass):hover::before {
+    opacity: 1;
+  }
+
+  :is(.ui-card, .ui-glass):hover::after {
+    opacity: 0.9;
+  }
+
+  /* The one pane on a page that most needs acting on: warmer glass with a
+     gold rim and a faint gold glow beneath it. */
+  .ui-card--raised {
+    background:
+      linear-gradient(160deg, rgba(212, 179, 108, 0.16), transparent 55%), var(--glass-fill);
+    border-color: color-mix(in oklab, var(--accent) 55%, transparent);
+    box-shadow:
+      var(--glass-shadow),
+      0 30px 70px -40px color-mix(in oklab, var(--accent) 55%, transparent);
+  }
+
+  /* Capsule glass for buttons and the active navigation item. */
+  .ui-glass-button {
+    background: var(--glass-fill);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid var(--glass-rim);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  }
+
+  .ui-glass-button:hover {
+    background: var(--glass-fill-hover);
+    border-color: color-mix(in oklab, var(--glass-rim) 100%, white 12%);
+  }
+
+  /* Bars: the top bar and the phone tab bar, frosted over the page as it
+     scrolls beneath them. */
+  .ui-glass-bar {
+    background-color: var(--glass-bar);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    backdrop-filter: blur(30px) saturate(180%);
+    border-color: var(--glass-rim);
+  }
+
+  /* The ambient scene every pane of glass sits over: the page's photograph,
+     blurred past recognition, with emerald, navy and gold light drifting
+     through it. Fixed, so the glass has something to refract as you scroll. */
+  .ui-ambient {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    background-color: var(--canvas);
+  }
+
+  .ui-ambient__photo {
+    position: absolute;
+    inset: -12%;
+    width: 124%;
+    height: 124%;
+    object-fit: cover;
+    filter: blur(64px) saturate(1.35);
+    opacity: var(--ambient-photo-opacity);
+  }
+
+  .ui-ambient::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--ambient-veil);
+  }
+
+  .ui-ambient__glow {
+    position: absolute;
+    width: 48vmax;
+    height: 48vmax;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.32;
+    animation: ambient-drift 32s ease-in-out infinite alternate;
+  }
+
+  .ui-ambient__glow--emerald {
+    top: -14%;
+    left: -10%;
+    background: radial-gradient(circle, #0f7a55, transparent 66%);
+  }
+
+  .ui-ambient__glow--navy {
+    right: -12%;
+    bottom: -18%;
+    background: radial-gradient(circle, #1d3566, transparent 66%);
+    animation-delay: -12s;
+  }
+
+  .ui-ambient__glow--gold {
+    top: 34%;
+    right: 22%;
+    width: 30vmax;
+    height: 30vmax;
+    opacity: 0.16;
+    background: radial-gradient(circle, #b18a45, transparent 66%);
+    animation-delay: -20s;
+  }
+
+  /* The editorial rule: a heavy line under (or over) a heading. */
+  .ui-rule {
+    border-bottom: var(--border-width-strong) solid var(--line-strong);
+  }
+
+  /* Dialogs, menus, popovers: denser glass, so what is behind them never
+     competes with what is on them. */
+  .ui-panel {
+    background-color: var(--glass-panel);
+    -webkit-backdrop-filter: blur(36px) saturate(170%);
+    backdrop-filter: blur(36px) saturate(170%);
+    border: 1px solid var(--glass-rim);
+    border-radius: var(--radius-card);
+    box-shadow: var(--glass-shadow), var(--shadow-overlay);
+  }
+
+  /* Fields are glass recessed into glass: a faint fill, a hairline rim and
+     an inner shadow, so they read as cut in rather than drawn on. */
+  .ui-control {
+    background-color: var(--glass-field);
+    border: 1px solid var(--glass-rim);
+    border-radius: var(--radius-control);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.22);
+    color: var(--ink);
+    transition:
+      border-color 200ms ease,
+      background-color 200ms ease;
+  }
+
+  .ui-control:hover {
+    border-color: color-mix(in oklab, var(--glass-rim) 100%, white 14%);
+  }
+
+  .ui-chip {
+    border-radius: var(--radius-chip);
+  }
+
+  /* Labels are set in mono: they are measurements and categories, not
+     prose, and the typewriter register is what makes them read as a slate. */
+  .ui-label {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    text-transform: var(--label-transform);
+    letter-spacing: var(--label-tracking);
+  }
+
+  .ui-display {
+    font-family: var(--font-display);
+    font-weight: var(--heading-weight);
+    letter-spacing: var(--heading-tracking);
+  }
+
+  /* Structural type: a real figure set large enough to act as architecture.
+     Always paired with a readable version of the same figure nearby. */
+  .ui-giant {
+    font-family: var(--font-display);
+    font-weight: 800;
+    line-height: 0.78;
+    /* Heavy capitals collide below about -0.03em; this is as tight as the
+       letters go without touching. */
+    letter-spacing: -0.03em;
+    font-variant-numeric: lining-nums;
+  }
+
+  /* The running line that opens a band: mono facts between two rules. */
+  .ui-runline {
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line);
+    padding-block: 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+
+  /* Metallic gold: the primary action. The gradient is twice the element's
+     width and slides on hover, so the metal catches the light. */
+  .ui-gold {
+    color: var(--gold-ink);
+    background-image: var(--gold-metal);
+    background-size: 220% 100%;
+    background-position: 0 0;
+    /* Liquid gold: a lit top edge and a warm glow beneath the capsule. */
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.18),
+      0 10px 28px -12px rgba(177, 138, 69, 0.7);
+    transition: background-position 700ms ease;
+  }
+
+  .ui-gold:hover {
+    background-position: 100% 0;
+  }
+
+  /* Decorative photography is graded to black and white; colour returns
+     when someone leans in. Evidence photography (site updates, snags) is
+     never graded -- a buyer checking a brick colour needs the real one. */
+  /* The accent voice: an italic serif for one or two words inside a grotesk
+     headline -- "Featured *residences*". Slightly larger, because Cormorant's
+     x-height is small next to Schibsted's. */
+  .ui-accent {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.08em;
+    letter-spacing: -0.01em;
+  }
+
+  /* Cinematic photography keeps its colour -- warm light is the point --
+     with just enough contrast to hold up under a dark veil. */
+  .ui-photo-cine {
+    filter: saturate(1.06) contrast(1.05);
+  }
+
+  .ui-photo-mono {
+    filter: grayscale(1) contrast(1.1) brightness(0.95);
+    transition: filter 900ms ease;
+  }
+
+  .group:hover .ui-photo-mono {
+    filter: grayscale(0.15) contrast(1.04);
+  }
+}
+
+@layer utilities {
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-strong) transparent;
+  }
+
+  .chart-grid {
+    stroke: var(--grid);
+    stroke-width: 1;
+  }
+
+  .chart-axis {
+    stroke: var(--axis);
+    stroke-width: 1;
+  }
+
+  .chart-label {
+    fill: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ============================================================================
+   Motion. All of it is switched off under prefers-reduced-motion.
+   ========================================================================= */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--good) 45%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 6px color-mix(in oklab, var(--good) 0%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--good) 0%, transparent);
+  }
+}
+
+@keyframes draw-line {
+  from {
+    stroke-dashoffset: var(--dash-len, 1000);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes slow-drift {
+  from {
+    transform: scale(1.07);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes ambient-drift {
+  to {
+    transform: translate3d(5vw, 4vh, 0) scale(1.1);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2.4s ease-out infinite;
+}
+
+.animate-draw-line {
+  stroke-dasharray: var(--dash-len, 1000);
+  animation: draw-line 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-slow-drift {
+  animation: slow-drift 18s cubic-bezier(0.2, 0.6, 0.2, 1) both;
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--surface-3);
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--ink) 6%, transparent),
+    transparent
+  );
+  animation: shimmer 1.6s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Glass is an effect, never a requirement. When the reader asks for less
+   transparency -- or the browser cannot blur -- every pane becomes a solid
+   surface with the same shape, and the ambient scene is dropped. */
+@media (prefers-reduced-transparency: reduce) {
+  .ui-card,
+  .ui-glass,
+  .ui-panel,
+  .ui-glass-button,
+  .ui-glass-bar {
+    background: var(--surface) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .ui-ambient__photo,
+  .ui-ambient__glow {
+    display: none;
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .ui-card,
+  .ui-glass,
+  .ui-panel,
+  .ui-glass-button,
+  .ui-glass-bar {
+    background: var(--surface);
+  }
+}
+
+/* High-contrast / forced-colors: let the OS palette through, but keep chart
+   marks outlined so shapes stay distinguishable when fills are overridden. */
+@media (forced-colors: active) {
+  .chart-mark {
+    forced-color-adjust: none;
+    stroke: CanvasText;
+    stroke-width: 1;
+  }
+}

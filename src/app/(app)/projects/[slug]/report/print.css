@@ -1,0 +1,116 @@
+/* ============================================================================
+   Print stylesheet for the progress report.
+   Scoped to .report so it cannot leak into the rest of the app.
+   ========================================================================= */
+
+.report {
+  max-width: 60rem;
+  margin-inline: auto;
+}
+
+.report__sheet {
+  background: var(--surface);
+  border: var(--border-width) solid var(--line);
+  padding: 2.5rem;
+}
+
+.report__rule {
+  border-bottom: var(--border-width-strong) solid var(--line-strong);
+}
+
+@media print {
+  /* A4 with generous margins -- this is meant to be filed, and a report that
+     runs to the paper edge cannot be hole-punched or bound. */
+  @page {
+    size: A4;
+    margin: 18mm 16mm;
+  }
+
+  /* Everything that is navigation rather than content. The report is the only
+     thing that should reach the paper. */
+  header[role="banner"],
+  nav,
+  .print-hide {
+    display: none !important;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+
+  .report {
+    max-width: none;
+  }
+
+  .report__sheet {
+    border: 0;
+    padding: 0;
+    box-shadow: none;
+    /* The app defaults to its dark theme; paper is always white. */
+    background: #fff !important;
+  }
+
+  /* Force the screen palette to plain ink on paper. Printing a dark ground
+     wastes toner and makes hairlines disappear. */
+  .report * {
+    background-image: none !important;
+    color: #000 !important;
+  }
+
+  .report .report__ink-soft {
+    color: #444 !important;
+  }
+
+  .report [data-print-keep-colour="true"] {
+    /* Status chips and chart marks keep their fill, but only where the
+       meaning depends on it -- and they carry a label regardless. */
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .report table {
+    /* Repeat the header on every page of a long table, or page two is a wall
+       of unlabelled numbers. */
+    break-inside: auto;
+  }
+
+  .report thead {
+    display: table-header-group;
+  }
+
+  .report tr,
+  .report .report__row {
+    break-inside: avoid;
+  }
+
+  .report section {
+    break-inside: avoid-page;
+  }
+
+  .report__page-break {
+    break-before: page;
+  }
+
+  .report h1,
+  .report h2,
+  .report h3 {
+    break-after: avoid;
+  }
+
+  /* Spell out link targets: a printed hyperlink with no URL is a dead end. */
+  .report a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    color: #555 !important;
+  }
+
+  .report__sheet {
+    font-size: 10pt;
+  }
+}

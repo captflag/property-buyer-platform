@@ -1,0 +1,678 @@
+/* ============================================================================
+   NOIR EDITORIAL
+   Classic monochrome on a broken grid.
+
+   Palette
+     black     #0a0a0a   deep ground for dark bands
+     white     #ffffff   crisp ground for light bands
+     emerald   #0f7a55   complete / good -- and one oversized figure
+     navy      #13213f   one full-bleed band: the programme
+     gold      metallic  the primary action and the current stage only
+
+   Bands switch between black, white and navy. Each band re-declares the same
+   local tokens (--bg, --fg, --fg-2, --fg-3, --rule...), so every component
+   works on any ground without a light/dark variant of its own.
+
+   Deliberately single-theme: the direction is a fixed editorial sequence of
+   black and white bands, so it paints every colour explicitly rather than
+   following the viewer's light/dark setting.
+   ========================================================================= */
+
+.noir {
+  --n-display: var(--font-schibsted), "Helvetica Neue", Arial, sans-serif;
+  --n-mono: var(--font-dm-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --gutter: clamp(16px, 2vw, 28px);
+  --gold-metal: linear-gradient(
+    115deg,
+    #8a6a2f 0%,
+    #d9bb78 26%,
+    #b18a45 46%,
+    #f0dca6 66%,
+    #a07a37 100%
+  );
+
+  background-color: #0a0a0a;
+  font-family: var(--n-display);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The app's base layer sets its serif directly on h1-h3, and a rule on the
+   element beats anything inherited -- so the headings are claimed here. */
+.noir h1,
+.noir h2,
+.noir h3,
+.noir h4 {
+  font-family: var(--n-display);
+}
+
+/* ---- Grounds ------------------------------------------------------------- */
+.noir-dark {
+  --bg: #0a0a0a;
+  --fg: #ffffff;
+  --fg-2: #a3a3a3;
+  --fg-3: #8a8a8a;
+  --rule: #2e2e2e;
+  --rule-strong: #ffffff;
+  --good: #34b17f;
+  --gold-text: #d4b36c;
+  --emerald-text: #34b17f;
+  background-color: var(--bg);
+  color: var(--fg);
+}
+
+.noir-light {
+  --bg: #ffffff;
+  --fg: #0a0a0a;
+  --fg-2: #4d4d4d;
+  --fg-3: #6b6b6b;
+  --rule: #dedede;
+  --rule-strong: #0a0a0a;
+  --good: #0f7a55;
+  --gold-text: #86652a;
+  --emerald-text: #0f7a55;
+  background-color: var(--bg);
+  color: var(--fg);
+}
+
+.noir-navy {
+  --bg: #13213f;
+  --fg: #ffffff;
+  --fg-2: #c3cbdc;
+  --fg-3: #93a0bb;
+  --rule: rgba(255, 255, 255, 0.18);
+  --rule-strong: #ffffff;
+  --good: #34b17f;
+  --gold-text: #e2c585;
+  --emerald-text: #34b17f;
+  background-color: var(--bg);
+  color: var(--fg);
+}
+
+.noir ::selection {
+  background-color: #d9bb78;
+  color: #0a0a0a;
+}
+
+.noir :focus-visible {
+  outline: 1px solid var(--gold-text);
+  outline-offset: 4px;
+}
+
+/* ---- Grid ---------------------------------------------------------------- */
+.noir-band {
+  position: relative;
+  overflow: hidden;
+}
+
+.noir-section {
+  padding-block: clamp(56px, 8vw, 120px);
+}
+
+.noir-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 4vw, 56px);
+}
+
+.noir-grid > * {
+  position: relative;
+  min-width: 0;
+}
+
+/* Running line: the structured editorial rule that opens every band. It sits
+   on the parent's own columns (subgrid), so its entries align with the
+   content below them however the content is offset. */
+.noir-runline {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  row-gap: 6px;
+  align-items: baseline;
+  padding-block: 14px;
+  border-top: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--n-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+
+/* ---- Type ---------------------------------------------------------------- */
+.noir-label {
+  font-family: var(--n-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.noir-gold-text {
+  color: var(--gold-text);
+}
+
+.noir-wordmark {
+  font-family: var(--n-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  color: var(--fg);
+}
+
+.noir-nav {
+  gap: 28px;
+  color: var(--fg-2);
+}
+
+.noir-nav [aria-current="page"] {
+  color: var(--fg);
+  box-shadow: 0 1px 0 var(--gold-text);
+}
+
+.noir-h2 {
+  font-size: clamp(32px, 4.2vw, 64px);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+.noir-body {
+  max-width: 60ch;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--fg-2);
+}
+
+.noir-num {
+  font-family: var(--n-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Structural type: real figures from the build, set large enough to act as
+   architecture on the page. Always paired with the same figure in readable
+   form nearby, so it can be aria-hidden without losing information. */
+.noir-giant {
+  margin: 0;
+  font-size: clamp(88px, 22vw, 340px);
+  font-weight: 800;
+  line-height: 0.78;
+  letter-spacing: -0.07em;
+  white-space: nowrap;
+  font-variant-numeric: lining-nums;
+  color: var(--fg);
+}
+
+.noir-giant__unit {
+  display: inline-block;
+  margin: 0.6em 0 0 0.9em;
+  vertical-align: top;
+  font-family: var(--n-mono);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.noir-giant--emerald {
+  color: var(--emerald-text);
+}
+
+.noir-giant--bleed {
+  font-size: clamp(120px, 31vw, 470px);
+  transform: translateX(5%);
+}
+
+/* ---- Photography --------------------------------------------------------- */
+.noir-frame {
+  position: relative;
+  overflow: hidden;
+  background-color: #1a1a1a;
+}
+
+.noir-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.12) brightness(0.94);
+  transition:
+    filter 900ms ease,
+    transform 1400ms cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+
+/* Colour returns only when someone leans in. */
+.noir-frame:hover .noir-photo {
+  filter: grayscale(0.2) contrast(1.05) brightness(1);
+  transform: scale(1.02);
+}
+
+.noir-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.09;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+.noir-caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule);
+  font-family: var(--n-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.noir-caption strong {
+  font-weight: 400;
+  color: var(--fg);
+}
+
+/* A text block that sits over a photograph's edge. The heavy top rule is the
+   editorial line that ties it back to the grid. */
+.noir-card {
+  z-index: 2;
+  padding: clamp(24px, 3vw, 40px);
+  border-top: 4px solid var(--fg);
+  background-color: var(--bg);
+}
+
+/* ---- Hero ---------------------------------------------------------------- */
+.noir-hero {
+  padding-bottom: 24px;
+}
+
+.noir-hero__grid {
+  padding-top: 28px;
+}
+
+.noir-hero__frame {
+  aspect-ratio: 4 / 3;
+}
+
+.noir-hero__frame .noir-photo {
+  transform-origin: 60% 50%;
+  animation: noir-drift 18s cubic-bezier(0.2, 0.6, 0.2, 1) both;
+}
+
+/* The one graphic gesture: the name crosses the photograph and inverts
+   wherever it overlaps it. */
+.noir-hero__word {
+  z-index: 3;
+  margin: 0 0 0 -0.04em;
+  font-size: clamp(64px, 20.5vw, 300px);
+  font-weight: 800;
+  line-height: 0.78;
+  letter-spacing: -0.065em;
+  text-transform: uppercase;
+  color: #ffffff;
+  mix-blend-mode: difference;
+  pointer-events: none;
+}
+
+.noir-hero__rest {
+  font-size: clamp(40px, 5vw, 80px);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+}
+
+.noir-figures {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  row-gap: 28px;
+  padding-block: 44px 36px;
+}
+
+.noir-fig {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 16px;
+  border-left: 1px solid var(--rule);
+}
+
+.noir-fig__value {
+  font-size: clamp(36px, 4.2vw, 62px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  font-variant-numeric: lining-nums;
+}
+
+.noir-fig__unit {
+  margin-left: 4px;
+  font-size: 0.45em;
+  letter-spacing: 0;
+  color: var(--fg-2);
+}
+
+/* ---- Vertical structural word --------------------------------------------- */
+.noir-vertical {
+  position: absolute;
+  top: clamp(56px, 8vw, 120px);
+  left: clamp(6px, 1.2vw, 20px);
+  margin: 0;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: clamp(80px, 10vw, 168px);
+  font-weight: 800;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+}
+
+/* ---- Lists & tables ------------------------------------------------------ */
+.noir-dl {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+}
+
+.noir-dl > div {
+  display: contents;
+}
+
+.noir-dl dt,
+.noir-dl dd {
+  padding-block: 13px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.noir-dl dt {
+  font-family: var(--n-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.noir-dl dd {
+  font-size: 15px;
+  color: var(--fg);
+}
+
+.noir-reasons li {
+  padding-block: 14px;
+  border-top: 1px solid var(--rule);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--fg-2);
+}
+
+.noir-reasons li strong {
+  display: block;
+  margin-bottom: 2px;
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.noir-table-wrap {
+  overflow-x: auto;
+}
+
+.noir-table {
+  width: 100%;
+  min-width: 620px;
+  border-collapse: collapse;
+}
+
+.noir-table th {
+  padding: 0 18px 12px 0;
+  text-align: left;
+  font-family: var(--n-mono);
+  font-size: 10.5px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+.noir-table td {
+  padding: 16px 18px 16px 0;
+  vertical-align: middle;
+  font-size: 15px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.noir-table .is-right {
+  text-align: right;
+}
+
+.noir-thumb {
+  width: 64px;
+  height: 44px;
+  flex-shrink: 0;
+}
+
+/* ---- Controls ------------------------------------------------------------ */
+.noir-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 46px;
+  padding: 0 22px;
+  font-family: var(--n-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg);
+  background-color: transparent;
+  border: 1px solid var(--fg);
+  cursor: pointer;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    background-position 700ms ease;
+}
+
+.noir-btn:hover {
+  background-color: var(--fg);
+  color: var(--bg);
+}
+
+/* Metallic gold: the primary action only. The gradient is twice the
+   button's width and slides on hover, so the metal catches the light. */
+.noir-btn--gold {
+  border: 0;
+  color: #0a0a0a;
+  background-image: var(--gold-metal);
+  background-size: 220% 100%;
+  background-position: 0 0;
+}
+
+.noir-btn--gold:hover {
+  color: #0a0a0a;
+  background-position: 100% 0;
+}
+
+.noir-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--n-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--fg-2);
+}
+
+.noir-status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+.noir-status--good {
+  color: var(--good);
+}
+
+.noir-status--warn {
+  color: var(--gold-text);
+}
+
+/* Critical stays inside the monochrome palette: an inverted chip is louder
+   than any red would be on a black-and-white page. */
+.noir-status--critical {
+  padding: 3px 8px 3px 7px;
+  color: var(--bg);
+  background-color: var(--fg);
+}
+
+.noir-status--open {
+  color: var(--fg-3);
+}
+
+.noir-status--open::before {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 1px currentColor;
+}
+
+.noir-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.noir-field input {
+  width: 100%;
+  padding: 10px 0 12px;
+  font-family: var(--n-display);
+  font-size: 20px;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+.noir-field input::placeholder {
+  color: var(--fg-3);
+}
+
+/* ---- Build ----------------------------------------------------------------- */
+.noir-meter {
+  position: relative;
+  height: 2px;
+  background-color: var(--rule);
+}
+
+.noir-meter__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background-color: var(--fg);
+}
+
+.noir-meter__mark {
+  position: absolute;
+  top: -6px;
+  width: 2px;
+  height: 14px;
+  background-image: var(--gold-metal);
+}
+
+.noir-stages {
+  display: grid;
+  grid-template-columns: repeat(var(--stage-count), minmax(0, 1fr));
+  gap: 6px;
+}
+
+.noir-stage__bar {
+  position: relative;
+  height: 3px;
+  margin-bottom: 14px;
+  background-color: var(--rule);
+}
+
+.noir-stage__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background-color: var(--good);
+}
+
+.noir-stage--current .noir-stage__fill {
+  background-image: var(--gold-metal);
+}
+
+/* ---- Broken grid: overlaps only where there is room for them ------------- */
+@media (min-width: 1024px) {
+  .noir-hero__grid {
+    grid-template-rows: minmax(120px, 15vh) auto minmax(180px, auto);
+  }
+
+  .noir-hero__photo .noir-hero__frame {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+
+  .noir-residence__photo {
+    margin-top: 9vw;
+  }
+
+  .noir-collage__kitchen {
+    margin-top: 16vw;
+  }
+
+  .noir-collage__bedroom {
+    margin-top: -7vw;
+  }
+
+  .noir-collage__stair {
+    margin-top: 6vw;
+  }
+
+  .noir-programme__photo {
+    margin-top: 5vw;
+  }
+}
+
+@media (max-width: 1023px) {
+  .noir-stages {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 24px;
+  }
+
+  .noir-giant--bleed {
+    transform: none;
+  }
+}
+
+@keyframes noir-drift {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .noir-hero__frame .noir-photo {
+    animation: none;
+  }
+  .noir-photo,
+  .noir-btn {
+    transition: none;
+  }
+}
