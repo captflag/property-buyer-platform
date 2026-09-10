@@ -2,7 +2,9 @@
 
 Transparent, real-time visibility into a construction project — schedule, cost, quality and documents — for the person whose home is being built.
 
-This is version 2, a rebuild of [captflag/property-buyer-platform](https://github.com/captflag/property-buyer-platform) on Next.js 16, TypeScript and Supabase.
+![The landing page: a lit modern house at dusk under the headline "Your home, built in the open", with the KESTREL wordmark across the foot of the frame.](docs/screenshots/landing.jpg)
+
+This is version 2, a ground-up rebuild on Next.js 16, TypeScript and Supabase. Version 1 is kept on the [`master`](https://github.com/captflag/property-buyer-platform/tree/master) branch.
 
 ```bash
 npm install
@@ -10,6 +12,45 @@ npm run dev
 ```
 
 Open <http://localhost:3000>. **No database and no API keys are needed** — the app boots into a fully populated example project so every screen has real-shaped data behind it.
+
+---
+
+## Screenshots
+
+Every screen below is the built-in demo project, exactly as it appears with nothing configured.
+
+<table>
+  <tr>
+    <td width="50%">
+      <img src="docs/screenshots/dashboard.jpg" alt="The overview: a dusk photograph with the project name set across it, above a progress ring at 55% complete, 4 points behind plan, a March 2027 target and the contract value.">
+      <p><b>Overview</b> — completion against plan, the target date and the contract value, under the house it is all about.</p>
+    </td>
+    <td width="50%">
+      <img src="docs/screenshots/selections.jpg" alt="The selections page: a warning that one decision is overdue, tiles for decided, due this week, overdue and the running cost of choices, and the first open decision with its deadline.">
+      <p><b>Selections</b> — every finish the buyer owes, with a deadline worked out from the programme and what happens if it passes.</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <img src="docs/screenshots/timeline.jpg" alt="The timeline page: tiles for milestones complete, milestones on the critical path, milestones running behind and the worst slippage, above a Gantt chart of the programme.">
+      <p><b>Timeline</b> — a critical-path programme: float, slippage, and the milestones that move the completion date.</p>
+    </td>
+    <td width="50%">
+      <img src="docs/screenshots/finance.jpg" alt="The finance page: a warning that one cost category is over budget, tiles for contract value, paid to date, outstanding and cost performance, and the budget charts.">
+      <p><b>Finance</b> — contract value, stage payments and cost performance, with over-running categories called out.</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="70%">
+      <img src="docs/screenshots/gallery.jpg" alt="The photographs page: a then-and-now slider comparing a foundation pour in March with roofing work in September.">
+      <p><b>Photographs</b> — every site photograph by month, with a then-and-now comparison.</p>
+    </td>
+    <td width="30%">
+      <img src="docs/screenshots/mobile.jpg" alt="The overview on a phone: the project name over a dusk photograph, the latest site photograph and the progress ring.">
+      <p><b>On a phone</b> — the same overview, laid out for one hand.</p>
+    </td>
+  </tr>
+</table>
 
 ---
 
